@@ -1,0 +1,66 @@
+[project]
+name = "text-generation-webui"
+version = "0.1.0"
+description = "Add your description here"
+readme = "README.md"
+requires-python = ">=3.12"
+dependencies = [
+  "torch==2.6.0",
+  "pytorch-triton-rocm==3.2.0",
+  "accelerate==1.5.*",
+  "colorama>=0.4.6",
+  "datasets>=4.0.0",
+  "einops>=0.8.1",
+  "fastapi==0.112.4",
+  "gradio==4.37.*",
+  "html2text==2025.4.15",
+  "jinja2==3.1.6",
+  "markdown>=3.8.2",
+  "numpy==2.2.*",
+  "pandas>=2.3.1",
+  "peft==0.15.*",
+  "pillow>=9.5.0",
+  "psutil>=7.0.0",
+  "pydantic==2.8.2",
+  "pypdf2==3.0.1",
+  "python-docx==1.1.2",
+  "pyyaml>=6.0.2",
+  "requests>=2.32.4",
+  "rich>=14.0.0",
+  "safetensors==0.5.*",
+  "scipy>=1.16.0",
+  "sentencepiece>=0.2.0",
+  "tensorboard>=2.19.0",
+  "transformers==4.50.*",
+  "tqdm>=4.67.1",
+  "wandb>=0.21.0",
+  "flask-cloudflared==0.0.14",
+  "sse-starlette==1.6.5",
+  "tiktoken>=0.9.0",
+  "llama-cpp-binaries ; sys_platform == 'win32'",
+  "llama-cpp-binaries ; platform_machine == 'x86_64' and sys_platform == 'linux'",
+  "exllamav2 ; python_full_version == '3.11.*' and platform_machine == 'x86_64' and sys_platform == 'linux'",
+  "exllamav2 ; platform_machine != 'x86_64' and sys_platform != 'darwin'",
+]
+
+[tool.uv.sources]
+torch = [
+  { index = "torch-rocm6.2.4" },
+]
+pytorch-triton-rocm = [
+  { index = "torch-rocm6.2.4" },
+]
+llama-cpp-binaries = { url = "https://github.com/oobabooga/llama-cpp-binaries/releases/download/v0.24.0/llama_cpp_binaries-0.24.0+vulkan-py3-none-linux_x86_64.whl" }
+exllamav2 = { url = "https://github.com/turboderp-org/exllamav2/releases/download/v0.3.1/exllamav2-0.3.1-py3-none-any.whl" }
+#jinja2 = [
+#  { index = "pypi" }
+#]
+#numpy = [
+#  { index = "pypi" }
+#]
+
+[[tool.uv.index]]
+name = "torch-rocm6.2.4"
+url = "https://download.pytorch.org/whl/rocm6.2.4"
+explicit = true
+
