@@ -19,6 +19,7 @@ def load_model(model_name, loader=None):
         'llama.cpp': llama_cpp_server_loader,
         'Transformers': transformers_loader,
         'ExLlamav3_HF': ExLlamav3_HF_loader,
+        'ExLlamav3': ExLlamav3_loader,
         'ExLlamav2_HF': ExLlamav2_HF_loader,
         'ExLlamav2': ExLlamav2_loader,
         'TensorRT-LLM': TensorRT_LLM_loader,
@@ -54,6 +55,10 @@ def load_model(model_name, loader=None):
     if loader.lower().startswith('exllama') or loader.lower().startswith('tensorrt') or loader == 'llama.cpp':
         shared.settings['truncation_length'] = shared.args.ctx_size
 
+    shared.is_multimodal = False
+    if loader.lower() in ('exllamav3', 'llama.cpp'):
+        shared.is_multimodal = model.is_multimodal()
+
     logger.info(f"Loaded \"{model_name}\" in {(time.time()-t0):.2f} seconds.")
     logger.info(f"LOADER: \"{loader}\"")
     logger.info(f"TRUNCATION LENGTH: {shared.settings['truncation_length']}")
@@ -88,6 +93,14 @@ def ExLlamav3_HF_loader(model_name):
     return Exllamav3HF.from_pretrained(model_name)
 
 
+def ExLlamav3_loader(model_name):
+    from modules.exllamav3 import Exllamav3Model
+
+    model = Exllamav3Model.from_pretrained(model_name)
+    tokenizer = model.tokenizer
+    return model, tokenizer
+
+
 def ExLlamav2_HF_loader(model_name):
     from modules.exllamav2_hf import Exllamav2HF
 
@@ -115,8 +128,12 @@ def unload_model(keep_model_name=False):
     if shared.model is None:
         return
 
-    is_llamacpp = (shared.model.__class__.__name__ == 'LlamaServer')
-    if shared.model.__class__.__name__ == 'Exllamav3HF':
+    model_class_name = shared.model.__class__.__name__
+    is_llamacpp = (model_class_name == 'LlamaServer')
+
+    if model_class_name in ['Exllamav3Model', 'Exllamav3HF']:
+        shared.model.unload()
+    elif model_class_name in ['Exllamav2Model', 'Exllamav2HF'] and hasattr(shared.model, 'unload'):
         shared.model.unload()
 
     shared.model = shared.tokenizer = None
