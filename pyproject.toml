@@ -11,6 +11,7 @@ dependencies = [
     "einops>=0.8.1",
     "fastapi==0.112.4",
     "flask-cloudflared==0.0.14",
+    "gradio_client",
     "gradio==4.37.*",
     "html2text==2025.4.15",
     "jinja2==3.1.6",
@@ -20,7 +21,7 @@ dependencies = [
     "peft==0.17.*",
     "pillow>=9.5.0",
     "psutil>=7.0.0",
-    "pydantic==2.8.2",
+    "pydantic==2.11.0",
     "pypdf2==3.0.1",
     "python-docx==1.1.2",
     "pyyaml>=6.0.2",
@@ -34,27 +35,27 @@ dependencies = [
     "tiktoken>=0.9.0",
     "tqdm>=4.67.1",
     "transformers==4.57.*",
-    "triton-windows==3.3.1.post19 ; platform_system == 'Windows'",
+    "triton-windows==3.5.0.post21 ; platform_system == 'Windows'",
     "wandb>=0.21.0",
 ]
 
 [project.optional-dependencies]
 amd = [
     "exllamav2",
-    "llama_cpp_binaries==0.37.0+vulkan",
+    "llama_cpp_binaries==0.56.0+vulkan",
     "pytorch_triton_rocm",
     "torch==2.7.0",
 ]
 amd-noavx2 = [
     "exllamav2",
-    "llama_cpp_binaries==0.37.0+vulkanavx",
+    "llama_cpp_binaries==0.56.0+vulkanavx",
     "pytorch_triton_rocm",
     "torch==2.7.0",
 ]
-cpuonly = ["exllamav2", "llama_cpp_binaries==0.37.0+cpuavx2", "torch==2.7.0"]
+cpuonly = ["exllamav2", "llama_cpp_binaries==0.56.0+cpuavx2", "torch==2.7.0"]
 cpuonly-noavx2 = [
     "exllamav2",
-    "llama_cpp_binaries==0.37.0+cpuavx",
+    "llama_cpp_binaries==0.56.0+cpuavx",
     "torch==2.7.0",
 ]
 cuda = [
@@ -63,7 +64,7 @@ cuda = [
     "exllamav3",
     "flash_attn",
     "flash-linear-attention==0.3.2",
-    "llama_cpp_binaries==0.49.0+cu128",
+    "llama_cpp_binaries==0.56.0+cu128",
     "torch==2.7.0",
 ]
 cuda-noavx2 = [
@@ -72,7 +73,7 @@ cuda-noavx2 = [
     "exllamav3",
     "flash_attn",
     "flash-linear-attention==0.3.2",
-    "llama_cpp_binaries==0.49.0+cu128avx",
+    "llama_cpp_binaries==0.56.0+cu128avx",
     "torch==2.7.0",
 ]
 
@@ -108,18 +109,18 @@ pytorch_triton_rocm = [
 ]
 
 llama_cpp_binaries = [
-    { extra = "amd", marker = 'platform_system == "Linux" and platform_machine == "x86_64"', url = "https://github.com/oobabooga/llama-cpp-binaries/releases/download/v0.49.0/llama_cpp_binaries-0.49.0+vulkan-py3-none-linux_x86_64.whl" },
-    { extra = "amd", marker = 'platform_system == "Windows"', url = "https://github.com/oobabooga/llama-cpp-binaries/releases/download/v0.49.0/llama_cpp_binaries-0.49.0+vulkan-py3-none-win_amd64.whl" },
-    { extra = "amd-noavx2", marker = "platform_system == 'Linux' and platform_machine == 'x86_64'", url = "https://github.com/oobabooga/llama-cpp-binaries/releases/download/v0.49.0/llama_cpp_binaries-0.49.0+vulkanavx-py3-none-win_amd64.whl" },
-    { extra = "amd-noavx2", marker = "platform_system == 'Windows'", url = "https://github.com/oobabooga/llama-cpp-binaries/releases/download/v0.49.0/llama_cpp_binaries-0.49.0+vulkanavx-py3-none-linux_x86_64.whl" },
-    { extra = "cpuonly", marker = "platform_system == 'Linux' and platform_machine == 'x86_64' and python_version == '3.11'", url = "https://github.com/oobabooga/llama-cpp-binaries/releases/download/v0.49.0/llama_cpp_binaries-0.49.0+cpuavx2-py3-none-linux_x86_64.whl" },
-    { extra = "cpuonly", marker = "platform_system == 'Windows' and python_version == '3.11'", url = "https://github.com/oobabooga/llama-cpp-binaries/releases/download/v0.49.0/llama_cpp_binaries-0.49.0+cpuavx2-py3-none-win_amd64.whl" },
-    { extra = "cpuonly-noavx2", marker = "platform_system == 'Linux' and platform_machine == 'x86_64' and python_version == '3.11'", url = "https://github.com/oobabooga/llama-cpp-binaries/releases/download/v0.49.0/llama_cpp_binaries-0.49.0+cpuavx-py3-none-linux_x86_64.whl" },
-    { extra = "cpuonly-noavx2", marker = "platform_system == 'Windows' and python_version == '3.11'", url = "https://github.com/oobabooga/llama-cpp-binaries/releases/download/v0.49.0/llama_cpp_binaries-0.49.0+cpuavx-py3-none-win_amd64.whl" },
-    { extra = "cuda", marker = "platform_system == 'Windows' and python_version == '3.11'", url = "https://github.com/oobabooga/llama-cpp-binaries/releases/download/v0.49.0/llama_cpp_binaries-0.49.0+cu124-py3-none-win_amd64.whl" },
-    { extra = "cuda", marker = 'platform_system == "Linux" and platform_machine == "x86_64" and python_version == "3.11"', url = "https://github.com/oobabooga/llama-cpp-binaries/releases/download/v0.49.0/llama_cpp_binaries-0.49.0+cu124-py3-none-linux_x86_64.whl" },
-    { extra = "cuda-noavx2", marker = 'platform_system == "Linux" and platform_machine == "x86_64" and python_version == "3.11"', url = "https://github.com/oobabooga/llama-cpp-binaries/releases/download/v0.49.0/llama_cpp_binaries-0.49.0+cu124avx-py3-none-linux_x86_64.whl" },
-    { extra = "cuda-noavx2", marker = 'platform_system == "Windows" and python_version == "3.11"', url = "https://github.com/oobabooga/llama-cpp-binaries/releases/download/v0.49.0/llama_cpp_binaries-0.49.0+cu124avx-py3-none-win_amd64.whl" },
+    { extra = "amd", marker = 'platform_system == "Linux" and platform_machine == "x86_64"', url = "https://github.com/oobabooga/llama-cpp-binaries/releases/download/v0.56.0/llama_cpp_binaries-0.56.0+vulkan-py3-none-linux_x86_64.whl" },
+    { extra = "amd", marker = 'platform_system == "Windows"', url = "https://github.com/oobabooga/llama-cpp-binaries/releases/download/v0.56.0/llama_cpp_binaries-0.56.0+vulkan-py3-none-win_amd64.whl" },
+    { extra = "amd-noavx2", marker = "platform_system == 'Linux' and platform_machine == 'x86_64'", url = "https://github.com/oobabooga/llama-cpp-binaries/releases/download/v0.56.0/llama_cpp_binaries-0.56.0+vulkanavx-py3-none-win_amd64.whl" },
+    { extra = "amd-noavx2", marker = "platform_system == 'Windows'", url = "https://github.com/oobabooga/llama-cpp-binaries/releases/download/v0.56.0/llama_cpp_binaries-0.56.0+vulkanavx-py3-none-linux_x86_64.whl" },
+    { extra = "cpuonly", marker = "platform_system == 'Linux' and platform_machine == 'x86_64' and python_version == '3.11'", url = "https://github.com/oobabooga/llama-cpp-binaries/releases/download/v0.56.0/llama_cpp_binaries-0.56.0+cpuavx2-py3-none-linux_x86_64.whl" },
+    { extra = "cpuonly", marker = "platform_system == 'Windows' and python_version == '3.11'", url = "https://github.com/oobabooga/llama-cpp-binaries/releases/download/v0.56.0/llama_cpp_binaries-0.56.0+cpuavx2-py3-none-win_amd64.whl" },
+    { extra = "cpuonly-noavx2", marker = "platform_system == 'Linux' and platform_machine == 'x86_64' and python_version == '3.11'", url = "https://github.com/oobabooga/llama-cpp-binaries/releases/download/v0.56.0/llama_cpp_binaries-0.56.0+cpuavx-py3-none-linux_x86_64.whl" },
+    { extra = "cpuonly-noavx2", marker = "platform_system == 'Windows' and python_version == '3.11'", url = "https://github.com/oobabooga/llama-cpp-binaries/releases/download/v0.56.0/llama_cpp_binaries-0.56.0+cpuavx-py3-none-win_amd64.whl" },
+    { extra = "cuda", marker = "platform_system == 'Windows' and python_version == '3.11'", url = "https://github.com/oobabooga/llama-cpp-binaries/releases/download/v0.56.0/llama_cpp_binaries-0.56.0+cu124-py3-none-win_amd64.whl" },
+    { extra = "cuda", marker = 'platform_system == "Linux" and platform_machine == "x86_64" and python_version == "3.11"', url = "https://github.com/oobabooga/llama-cpp-binaries/releases/download/v0.56.0/llama_cpp_binaries-0.56.0+cu124-py3-none-linux_x86_64.whl" },
+    { extra = "cuda-noavx2", marker = 'platform_system == "Linux" and platform_machine == "x86_64" and python_version == "3.11"', url = "https://github.com/oobabooga/llama-cpp-binaries/releases/download/v0.56.0/llama_cpp_binaries-0.56.0+cu124avx-py3-none-linux_x86_64.whl" },
+    { extra = "cuda-noavx2", marker = 'platform_system == "Windows" and python_version == "3.11"', url = "https://github.com/oobabooga/llama-cpp-binaries/releases/download/v0.56.0/llama_cpp_binaries-0.56.0+cu124avx-py3-none-win_amd64.whl" },
 ]
 
 exllamav2 = [
@@ -136,10 +137,10 @@ exllamav2 = [
 ]
 
 exllamav3 = [
-    { extra = "cuda", marker = 'platform_system == "Linux" and platform_machine == "x86_64" and python_version == "3.11"', url = "https://github.com/turboderp-org/exllamav3/releases/download/v0.0.7/exllamav3-0.0.7+cu128.torch2.7.0-cp311-cp311-linux_x86_64.whl" },
-    { extra = "cuda", marker = 'platform_system == "Windows" and python_version == "3.11"', url = "https://github.com/turboderp-org/exllamav3/releases/download/v0.0.7/exllamav3-0.0.7+cu128.torch2.7.0-cp311-cp311-win_amd64.whl" },
-    { extra = "cuda-noavx2", marker = 'platform_system == "Linux" and platform_machine == "x86_64" and python_version == "3.11"', url = "https://github.com/turboderp-org/exllamav3/releases/download/v0.0.7/exllamav3-0.0.7+cu128.torch2.7.0-cp311-cp311-linux_x86_64.whl" },
-    { extra = "cuda-noavx2", marker = 'platform_system == "Windows" and python_version == "3.11"', url = "https://github.com/turboderp-org/exllamav3/releases/download/v0.0.7/exllamav3-0.0.7+cu128.torch2.7.0-cp311-cp311-win_amd64.whl" },
+    { extra = "cuda", marker = 'platform_system == "Linux" and platform_machine == "x86_64" and python_version == "3.11"', url = "https://github.com/turboderp-org/exllamav3/releases/download/v0.0.11/exllamav3-0.0.11+cu128.torch2.7.0-cp311-cp311-linux_x86_64.whl" },
+    { extra = "cuda", marker = 'platform_system == "Windows" and python_version == "3.11"', url = "https://github.com/turboderp-org/exllamav3/releases/download/v0.0.11/exllamav3-0.0.11+cu128.torch2.7.0-cp311-cp311-win_amd64.whl" },
+    { extra = "cuda-noavx2", marker = 'platform_system == "Linux" and platform_machine == "x86_64" and python_version == "3.11"', url = "https://github.com/turboderp-org/exllamav3/releases/download/v0.0.11/exllamav3-0.0.11+cu128.torch2.7.0-cp311-cp311-linux_x86_64.whl" },
+    { extra = "cuda-noavx2", marker = 'platform_system == "Windows" and python_version == "3.11"', url = "https://github.com/turboderp-org/exllamav3/releases/download/v0.0.11/exllamav3-0.0.11+cu128.torch2.7.0-cp311-cp311-win_amd64.whl" },
 ]
 
 flash_attn = [
@@ -147,6 +148,10 @@ flash_attn = [
     { extra = "cuda", marker = 'platform_system == "Windows" and python_version == "3.11"', url = "https://github.com/kingbri1/flash-attention/releases/download/v2.8.3/flash_attn-2.8.3+cu128torch2.7.0cxx11abiFALSE-cp311-cp311-win_amd64.whl" },
     { extra = "cuda-noavx2", marker = 'platform_system == "Linux" and platform_machine == "x86_64" and python_version == "3.11"', url = "https://github.com/Dao-AILab/flash-attention/releases/download/v2.8.3/flash_attn-2.8.3+cu12torch2.7cxx11abiFALSE-cp311-cp311-linux_x86_64.whl" },
     { extra = "cuda-noavx2", marker = 'platform_system == "Windows" and python_version == "3.11"', url = "https://github.com/kingbri1/flash-attention/releases/download/v2.8.3/flash_attn-2.8.3+cu128torch2.7.0cxx11abiFALSE-cp311-cp311-win_amd64.whl" },
+]
+
+gradio_client = [
+    { url = "https://github.com/oobabooga/gradio/releases/download/custom-build/gradio_client-1.0.2+custom.1-py3-none-any.whl" }
 ]
 
 [[tool.uv.index]]
